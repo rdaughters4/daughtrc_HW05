@@ -270,4 +270,8 @@ void Tester::test_all() {
 
   for (int i=1; i <= 12; i++)
     cout << "Test " << i << ": " << (run_test(i) ? "Working" : "Failed") << endl;
+
+  int wait;
+  cout << "Waiting...";
+  cin >> wait;
 }
