@@ -34,7 +34,7 @@ bool getTourWeight(int* arr, int arrLength) {
 		if (i != arrLength-1) {
 			currentPair.second += G->weight(arr[i], arr[i+1]);
 			currentPair.first.push_back(arr[i]);
-			if (currentPair.second > bestPair.second)
+			if (currentPair.second >= bestPair.second)
 				return false;
 		}
 		else {
