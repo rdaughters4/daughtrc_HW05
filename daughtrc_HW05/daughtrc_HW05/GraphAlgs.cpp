@@ -6,11 +6,13 @@ void setUp(Graph* g) {
 	tourArr = new int[G->size()];
 	for (int i = 0; i < G->size(); i++) {
 		tourArr[i] = i;
+	}
+	for (int i = 0; i < G->size()-1; i++) {
 		shortestWeight += G->weight(tourArr[i], tourArr[i+1]);
 		bestTour.push_back(tourArr[i]);
 	}
 	// add the final location
-	shortestWeight += G->weight(tourArr[G->size()-1], 0);
+	shortestWeight += G->weight(tourArr[G->size()-1], tourArr[0]);
 	bestTour.push_back(tourArr[G->size()-1]);
 
 	bestPair.first = bestTour;
@@ -25,7 +27,7 @@ bool getTourWeight(int* arr, int arrLength) {
 	currentPair.second = currentWeight;
 
 	for (int i = 0; i < arrLength; i++) {
-		if (i != arrLength) {
+		if (i != arrLength-1) {
 			currentPair.second += G->weight(arr[i], arr[i+1]);
 			currentPair.first.push_back(arr[i]);
 			if (currentPair.second > bestPair.second)
@@ -38,20 +40,15 @@ bool getTourWeight(int* arr, int arrLength) {
 				bestPair = currentPair;
 		}
 	}
-	shortestWeight = currentWeight;
-	for (int i = 0; i < arrLength; i++) {
-		bestTour[i] = i;
-	}
 }
 
 void findBestTour(int* arr, int startPos, int arrLength) {
-	if (startPos >= arrLength) {
-		return;
+	if (arrLength-startPos == 1) {
+		getTourWeight(arr, arrLength);
 	}
 	else {
 		for (int i = startPos+1; i < arrLength; i++) {
 			swap(arr, arr[startPos], i);
-			getTourWeight(arr, arrLength);
 			findBestTour(arr, startPos+1, arrLength);
 			swap(arr, arr[startPos], i);
 		}
@@ -66,7 +63,7 @@ void swap(int* arr, int a, int b) {
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	setUp(G);
-	findBestTour(tourArr, 1, G->size()-1);
-	return std::make_pair(bestTour, bestTotalWeight);
+	findBestTour(tourArr, 0, G->size());
+	return bestPair;
 }
 
