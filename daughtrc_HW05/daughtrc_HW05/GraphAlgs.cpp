@@ -13,17 +13,30 @@ void setUp(Graph* g) {
 	shortestWeight += G->weight(tourArr[G->size()-1], 0);
 	bestTour.push_back(tourArr[G->size()-1]);
 
-	std::pair<std::vector<NodeID>, EdgeWeight> bestPair;
 	bestPair.first = bestTour;
 	bestPair.second = shortestWeight;
 }
 
 bool getTourWeight(int* arr, int arrLength) {
-	int currentWeight = 0;
+	std::pair<std::vector<NodeID>, EdgeWeight> currentPair;
+	std::vector<NodeID> currentVector;
+	double currentWeight = 0;
+	currentPair.first = currentVector;
+	currentPair.second = currentWeight;
+
 	for (int i = 0; i < arrLength; i++) {
-		currentWeight += G->weight(arr[i], 0);
-		if (currentWeight >= shortestWeight)
-			return false;
+		if (i != arrLength) {
+			currentPair.second += G->weight(arr[i], arr[i+1]);
+			currentPair.first.push_back(arr[i]);
+			if (currentPair.second > bestPair.second)
+				return false;
+		}
+		else {
+			currentPair.second += G->weight(arr[i], 0);
+			currentPair.first.push_back(arr[i]);
+			if (currentPair.second < bestPair.second)
+				bestPair = currentPair;
+		}
 	}
 	shortestWeight = currentWeight;
 	for (int i = 0; i < arrLength; i++) {

@@ -9,6 +9,7 @@ static Graph* G;
 static double shortestWeight;
 static std::vector<NodeID> bestTour;
 static int* tourArr;
+static std::pair<std::vector<NodeID>, EdgeWeight> bestPair;
 
 /* recursive method call that runs through all possible permutations. During each
  * permutation, call getTourWeight to check if the current permutation tour is
