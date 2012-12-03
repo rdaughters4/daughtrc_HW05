@@ -4,6 +4,27 @@
 
 #pragma once
 
+// public variables
+static Graph* G;
+static double bestTotalWeight;
+static std::vector<NodeID> bestTour;
+static int* tourArr;
+
+/* recursive method call that runs through all possible permutations. During each
+ * permutation, call getTourWeight to check if the current permutation tour is
+ * the best tour. */
+void findBestTour(int* arr, int startPos, int arrLength);
+
+/* adds up all the weights between the locations. If the total weight is less then
+ * the current best weight, change bestTour. */
+bool getTourWeight(int* arr, int arrLength);
+
+/* initializes bestTotalWeight, bestTour, and TourArr */
+void setUp(Graph* g);
+
+/* general swap method */
+void swap(int* arr, int a, int b);
+
 
 /*
  * Solves the Traveling Salesperson Problem: finding the shortest cycle through a graph that 
