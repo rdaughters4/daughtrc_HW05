@@ -6,7 +6,7 @@
 
 // public variables
 static Graph* G;
-static double bestTotalWeight;
+static double shortestWeight;
 static std::vector<NodeID> bestTour;
 static int* tourArr;
 

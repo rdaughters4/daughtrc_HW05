@@ -2,24 +2,30 @@
 
 void setUp(Graph* g) {
 	G = g;
-	bestTour.resize(G->size());
-	bestTotalWeight = 0;
+	shortestWeight = 0.0;
 	tourArr = new int[G->size()];
 	for (int i = 0; i < G->size(); i++) {
-		bestTour[i] = i;
 		tourArr[i] = i;
-		bestTotalWeight += G->weight(0, i);
+		shortestWeight += G->weight(tourArr[i], tourArr[i+1]);
+		bestTour.push_back(tourArr[i]);
 	}
+	// add the final location
+	shortestWeight += G->weight(tourArr[G->size()-1], 0);
+	bestTour.push_back(tourArr[G->size()-1]);
+
+	std::pair<std::vector<NodeID>, EdgeWeight> bestPair;
+	bestPair.first = bestTour;
+	bestPair.second = shortestWeight;
 }
 
 bool getTourWeight(int* arr, int arrLength) {
 	int currentWeight = 0;
 	for (int i = 0; i < arrLength; i++) {
-		currentWeight += G->weight(0, arr[i]);
-		if (currentWeight >= bestTotalWeight)
+		currentWeight += G->weight(arr[i], 0);
+		if (currentWeight >= shortestWeight)
 			return false;
 	}
-	bestTotalWeight = currentWeight;
+	shortestWeight = currentWeight;
 	for (int i = 0; i < arrLength; i++) {
 		bestTour[i] = i;
 	}
