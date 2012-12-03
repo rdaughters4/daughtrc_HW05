@@ -20,7 +20,7 @@ void setUp(Graph* g) {
 	bestPair.first = bestTour;
 	bestPair.second = shortestWeight;
 
-	findBestTour(tourArr, 0, G->size());
+	findBestTour(tourArr, 1, G->size());
 }
 
 bool getTourWeight(int* arr, int arrLength) {
