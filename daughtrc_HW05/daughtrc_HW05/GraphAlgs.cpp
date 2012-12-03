@@ -1,9 +1,11 @@
 #include "GraphAlgs.h"
 
+// logic and code heavily influenced by Lucy Youxuan. 
+
 void setUp(Graph* g) {
 	G = g;
 	shortestWeight = 0.0;
-	tourArr = new int[G->size()];
+	int* tourArr = new int[G->size()];
 	for (int i = 0; i < G->size(); i++) {
 		tourArr[i] = i;
 	}
@@ -17,6 +19,8 @@ void setUp(Graph* g) {
 
 	bestPair.first = bestTour;
 	bestPair.second = shortestWeight;
+
+	findBestTour(tourArr, 0, G->size());
 }
 
 bool getTourWeight(int* arr, int arrLength) {
@@ -34,7 +38,7 @@ bool getTourWeight(int* arr, int arrLength) {
 				return false;
 		}
 		else {
-			currentPair.second += G->weight(arr[i], 0);
+			currentPair.second += G->weight(arr[i], arr[0]);
 			currentPair.first.push_back(arr[i]);
 			if (currentPair.second < bestPair.second)
 				bestPair = currentPair;
@@ -47,7 +51,7 @@ void findBestTour(int* arr, int startPos, int arrLength) {
 		getTourWeight(arr, arrLength);
 	}
 	else {
-		for (int i = startPos+1; i < arrLength; i++) {
+		for (int i = startPos; i < arrLength; i++) {
 			swap(arr, arr[startPos], i);
 			findBestTour(arr, startPos+1, arrLength);
 			swap(arr, arr[startPos], i);
@@ -56,14 +60,13 @@ void findBestTour(int* arr, int startPos, int arrLength) {
 }
 
 void swap(int* arr, int a, int b) {
-	int temp = arr[a];
+	int temp = arr[b];
 	arr[b] = arr[a];
 	arr[a] = temp;
 }
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	setUp(G);
-	findBestTour(tourArr, 0, G->size());
 	return bestPair;
 }
 
