@@ -46,6 +46,7 @@ bool getTourWeight(int* arr, int arrLength) {
 	}
 }
 
+// influence by class notes
 void findBestTour(int* arr, int startPos, int arrLength) {
 	if (arrLength-startPos == 1) {
 		getTourWeight(arr, arrLength);
